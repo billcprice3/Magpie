@@ -89,12 +89,13 @@ for filename in os.listdir(input_folder):
         # Open the image
         with Image.open(os.path.join(input_folder, filename)) as img:
 
-            if img.height / img.width > 1.25:
+            if img.height / img.width > 1.15:
                 canvas = generate_random_background(2000, 2500)
                 # Calculate the scaling factor to fit within a 2000x2500 rectangle
-                max_dimension = 2300
+                max_width = 1800
+                max_height = 2300
                 width, height = img.size
-                scale_factor = min(max_dimension / width, max_dimension / height)
+                scale_factor = min(max_width / width, max_height / height)
 
                 # Resize img proportionally
                 new_width = int(width * scale_factor)
