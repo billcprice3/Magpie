@@ -12,10 +12,64 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
     max_shape_radius = 400
     min_shape_radius = 200
 
-    palette = random.randint(0,1)    # For the random selection of the color palette. 
+    palette = random.randint(0,5)    # For the random selection of the color palette. 
     
     if palette == 0:
-        # Define acceptable color shades for blue/purple circles
+        # Analogous: soft blues and greens
+        circle_colors = [
+            (105, 240, 197, 255),
+            (105, 195, 240, 255),
+            (105, 238, 240, 255),
+            (105, 240, 151, 255),
+            (105, 153, 240, 255),
+        ]
+        
+    elif palette == 1:
+        # Analogous: soft purples and blues
+        circle_colors = [
+            (115, 101, 240, 255),
+            (206, 101, 240, 255),
+            (162, 101, 240, 255),
+            (101, 130, 240, 255),
+            (240, 101, 217, 255),
+        ]
+
+    elif palette == 2:
+        # Analogous: bold reds and oranges
+        circle_colors = [
+            (240, 60, 17, 255),
+            (240, 138, 17, 255),
+            (240, 97, 16, 255),
+            (240, 20, 17, 255),
+            (240, 167, 17, 255),
+        ]
+        
+    elif palette == 3:
+        # Analogous: soft pinky purply
+        circle_colors = [
+            (239, 173, 240, 255),
+            (240, 176, 173, 255),
+            (240, 172, 200, 255),
+            (217, 173, 240, 255),
+            (240, 188, 173, 255),
+        ]
+        
+    elif palette == 4:
+        # Original red
+        circle_colors = [
+            (252, 162, 57, 255),   # Neon Carrot
+            (252, 38, 116, 255),   # Radical Red
+            (252, 138, 245, 255),   # Lavender Rose
+            (252, 241, 119, 255),   # Marigold Yellow
+            (252, 140, 168, 255),   # Tickle Me Pink
+            (252, 140, 99, 255),   # Salmon
+            (252, 228, 225, 255),   # Cindarella
+            (252, 20, 44, 255),   # Torch Red
+            (252, 60, 188, 255),   # Razzle Dazzle Rose 
+        ]
+        
+    elif palette == 5:
+        # Original blue-purple
         circle_colors = [
             (201, 84, 252, 255),   # Heliotrope
             (30, 203, 252, 255),   # Bright Turquoise
@@ -27,20 +81,7 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
             (97, 187, 252, 255),   # Malibu
             (72, 154, 252, 255),   # Dodger Blue 2
         ]
-    
-    else:
-        # Define acceptable color shades for red/orange circles
-        circle_colors = [
-            (252, 162, 57, 255),   # Neon Carrot
-            (252, 38, 116, 255),   # Radical Red
-            (252, 138, 245, 255),   # Lavender Rose
-            (252, 241, 119, 255),   # Marigold Yellow
-            (252, 140, 168, 255),   # Tickle Me Pink
-            (252, 140, 99, 255),   # Salmon
-            (252, 228, 225, 255),   # Cindarella
-            (252, 20, 44, 255),   # Torch Red
-            (252, 60, 188, 255),   # Razzle Dazzle Rose        
-        ]
+        
 
     # Create a new blank image
     canvas = Image.new('RGBA', (canvas_width, canvas_height), background_color)
