@@ -83,38 +83,29 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
         ]
         
 
-    # Create a new blank image
+    # Create a new blank image for canvas and one for drawing circles
     canvas = Image.new('RGBA', (canvas_width, canvas_height), background_color)
-    draw = ImageDraw.Draw(canvas)
+    circles_layer = Image.new('RGBA', (canvas_width, canvas_height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(circles_layer)
 
-    # Draw randomly placed partially transparent circles with different blend modes
-    blend_modes = ['add', 'multiply', 'screen', 'overlay']
-
+    # Draw randomly placed partially transparent circles
     for _ in range(shape_amount):
         x = random.randint(0, canvas_width)
         y = random.randint(0, canvas_height)
         radius = random.randint(min_shape_radius, max_shape_radius)
         color = random.choice(circle_colors)
-        blend_mode = random.choice(blend_modes)
 
-        # Create a circle with the specified fill color and opacity
-        circle = Image.new('RGBA', (2 * radius, 2 * radius), (0, 0, 0, 0))
-        circle_draw = ImageDraw.Draw(circle)
-        circle_draw.ellipse([(0, 0), (2 * radius, 2 * radius)], fill=color)
+        # Directly draw each circle on the circles layer
+        draw.ellipse([(x - radius, y - radius), (x + radius, y + radius)], fill=color)
 
-        # Create a new blank RGBA image of the same size as the canvas
-        circle_layer = Image.new('RGBA', (canvas_width, canvas_height), (0, 0, 0, 0))
+    # Apply global opacity to the entire circles layer
+    circles_layer.putalpha(shape_alpha)
 
-        # Paste the circle onto the circle_layer using the chosen blend mode
-        circle_layer.paste(circle, (x - radius, y - radius))
-        circle_layer = Image.alpha_composite(canvas.convert('RGBA'), circle_layer)
-
-        circle_layer.putalpha(shape_alpha)
-
-        # Composite the circle onto the canvas
-        canvas = Image.alpha_composite(canvas, circle_layer)
+    # Composite the circles onto the canvas in a single operation
+    canvas = Image.alpha_composite(canvas, circles_layer)
 
     return canvas
+
 
 # Input and output folder paths
 input_folder = 'Inputs/'
