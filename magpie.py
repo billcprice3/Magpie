@@ -12,10 +12,64 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
     max_shape_radius = 400
     min_shape_radius = 200
 
-    palette = random.randint(0,1)    # For the random selection of the color palette. 
+    palette = random.randint(0,5)    # For the random selection of the color palette. 
     
     if palette == 0:
-        # Define acceptable color shades for blue/purple circles
+        # Analogous: soft blues and greens
+        circle_colors = [
+            (105, 240, 197, 255),
+            (105, 195, 240, 255),
+            (105, 238, 240, 255),
+            (105, 240, 151, 255),
+            (105, 153, 240, 255),
+        ]
+        
+    elif palette == 1:
+        # Analogous: soft purples and blues
+        circle_colors = [
+            (115, 101, 240, 255),
+            (206, 101, 240, 255),
+            (162, 101, 240, 255),
+            (101, 130, 240, 255),
+            (240, 101, 217, 255),
+        ]
+
+    elif palette == 2:
+        # Analogous: bold reds and oranges
+        circle_colors = [
+            (240, 60, 17, 255),
+            (240, 138, 17, 255),
+            (240, 97, 16, 255),
+            (240, 20, 17, 255),
+            (240, 167, 17, 255),
+        ]
+        
+    elif palette == 3:
+        # Analogous: soft pinky purply
+        circle_colors = [
+            (239, 173, 240, 255),
+            (240, 176, 173, 255),
+            (240, 172, 200, 255),
+            (217, 173, 240, 255),
+            (240, 188, 173, 255),
+        ]
+        
+    elif palette == 4:
+        # Original red
+        circle_colors = [
+            (252, 162, 57, 255),   # Neon Carrot
+            (252, 38, 116, 255),   # Radical Red
+            (252, 138, 245, 255),   # Lavender Rose
+            (252, 241, 119, 255),   # Marigold Yellow
+            (252, 140, 168, 255),   # Tickle Me Pink
+            (252, 140, 99, 255),   # Salmon
+            (252, 228, 225, 255),   # Cindarella
+            (252, 20, 44, 255),   # Torch Red
+            (252, 60, 188, 255),   # Razzle Dazzle Rose 
+        ]
+        
+    elif palette == 5:
+        # Original blue-purple
         circle_colors = [
             (201, 84, 252, 255),   # Heliotrope
             (30, 203, 252, 255),   # Bright Turquoise
@@ -27,53 +81,31 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
             (97, 187, 252, 255),   # Malibu
             (72, 154, 252, 255),   # Dodger Blue 2
         ]
-    
-    else:
-        # Define acceptable color shades for red/orange circles
-        circle_colors = [
-            (252, 162, 57, 255),   # Neon Carrot
-            (252, 38, 116, 255),   # Radical Red
-            (252, 138, 245, 255),   # Lavender Rose
-            (252, 241, 119, 255),   # Marigold Yellow
-            (252, 140, 168, 255),   # Tickle Me Pink
-            (252, 140, 99, 255),   # Salmon
-            (252, 228, 225, 255),   # Cindarella
-            (252, 20, 44, 255),   # Torch Red
-            (252, 60, 188, 255),   # Razzle Dazzle Rose        
-        ]
+        
 
-    # Create a new blank image
+    # Create a new blank image for canvas and one for drawing circles
     canvas = Image.new('RGBA', (canvas_width, canvas_height), background_color)
-    draw = ImageDraw.Draw(canvas)
+    circles_layer = Image.new('RGBA', (canvas_width, canvas_height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(circles_layer)
 
-    # Draw randomly placed partially transparent circles with different blend modes
-    blend_modes = ['add', 'multiply', 'screen', 'overlay']
-
+    # Draw randomly placed partially transparent circles
     for _ in range(shape_amount):
         x = random.randint(0, canvas_width)
         y = random.randint(0, canvas_height)
         radius = random.randint(min_shape_radius, max_shape_radius)
         color = random.choice(circle_colors)
-        blend_mode = random.choice(blend_modes)
 
-        # Create a circle with the specified fill color and opacity
-        circle = Image.new('RGBA', (2 * radius, 2 * radius), (0, 0, 0, 0))
-        circle_draw = ImageDraw.Draw(circle)
-        circle_draw.ellipse([(0, 0), (2 * radius, 2 * radius)], fill=color)
+        # Directly draw each circle on the circles layer
+        draw.ellipse([(x - radius, y - radius), (x + radius, y + radius)], fill=color)
 
-        # Create a new blank RGBA image of the same size as the canvas
-        circle_layer = Image.new('RGBA', (canvas_width, canvas_height), (0, 0, 0, 0))
+    # Apply global opacity to the entire circles layer
+    circles_layer.putalpha(shape_alpha)
 
-        # Paste the circle onto the circle_layer using the chosen blend mode
-        circle_layer.paste(circle, (x - radius, y - radius))
-        circle_layer = Image.alpha_composite(canvas.convert('RGBA'), circle_layer)
-
-        circle_layer.putalpha(shape_alpha)
-
-        # Composite the circle onto the canvas
-        canvas = Image.alpha_composite(canvas, circle_layer)
+    # Composite the circles onto the canvas in a single operation
+    canvas = Image.alpha_composite(canvas, circles_layer)
 
     return canvas
+
 
 # Input and output folder paths
 input_folder = 'Inputs/'
@@ -89,12 +121,13 @@ for filename in os.listdir(input_folder):
         # Open the image
         with Image.open(os.path.join(input_folder, filename)) as img:
 
-            if img.height / img.width > 1.25:
+            if img.height / img.width > 1.15:
                 canvas = generate_random_background(2000, 2500)
                 # Calculate the scaling factor to fit within a 2000x2500 rectangle
-                max_dimension = 2300
+                max_width = 1800
+                max_height = 2300
                 width, height = img.size
-                scale_factor = min(max_dimension / width, max_dimension / height)
+                scale_factor = min(max_width / width, max_height / height)
 
                 # Resize img proportionally
                 new_width = int(width * scale_factor)
