@@ -167,7 +167,6 @@ for filename in os.listdir(input_folder):
             # Save the modified image to the output folder
             output_filename = os.path.join(output_folder, os.path.splitext(filename)[0] + '.png')
 
-            canvas.show()
             canvas.save(output_filename, 'PNG')
 
             print(f"{filename} has been processed.")
