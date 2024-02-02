@@ -8,14 +8,27 @@ def generate_gradient_canvas(canvas_width, canvas_height, circle_colors):
     draw = ImageDraw.Draw(gradient_canvas)
     
     # Generate and randomize list for random color placement
-    random_list = [0, 1, 2, 3]
-    random.shuffle(random_list)
+
+    cycle_permutation = random.randint(0,1)
+
+    if cycle_permutation == 0:
+        cycle = [0, 1, 2, 3]
+
+    elif cycle_permutation == 1:
+        cycle = [1, 2, 3, 0]
+
+    elif cycle_permutation == 2:
+        cycle = [2, 3, 0, 1]
+
+    elif cycle_permutation == 3:
+        cycle = [3, 0, 1, 2]
+
     
     #Draw rectangles in the four quadrants
-    draw.rectangle([0,0,canvas_width/2,canvas_height/2],fill=circle_colors[random_list[0]])
-    draw.rectangle([canvas_width/2,0,canvas_width,canvas_height/2],fill=circle_colors[random_list[1]])
-    draw.rectangle([0,canvas_height/2,canvas_width/2,canvas_height],fill=circle_colors[random_list[2]])
-    draw.rectangle([canvas_width/2,canvas_height/2,canvas_width,canvas_height],fill=circle_colors[random_list[3]])
+    draw.rectangle([0,0,canvas_width/2,canvas_height/2],fill=circle_colors[cycle[0]])
+    draw.rectangle([canvas_width/2,0,canvas_width,canvas_height/2],fill=circle_colors[cycle[1]])
+    draw.rectangle([0,canvas_height/2,canvas_width/2,canvas_height],fill=circle_colors[cycle[2]])
+    draw.rectangle([canvas_width/2,canvas_height/2,canvas_width,canvas_height],fill=circle_colors[cycle[3]])
 
     # Apply a blur to smooth the gradient transitions
     gradient_canvas = gradient_canvas.filter(ImageFilter.GaussianBlur(radius=canvas_width // 2))
@@ -26,66 +39,30 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
     background_color = (255, 255, 255, 255)  # White (RGBA format)
 
     # Circle parameters
-    shape_alpha = int(0.3 * 255)  # 30% opacity
-    shape_amount = 100
+    shape_alpha = int(0.4 * 255)  # 30% opacity
+    shape_amount = 150
     max_shape_radius = 500
     min_shape_radius = 100
 
-    palette = random.randint(0,5)    # For the random selection of the color palette. 
+    palette = random.randint(0,1)    # For the random selection of the color palette. 
 
     
     if palette == 0:
-        # Compound 0
+        # Purplish from BGGenerator
         circle_colors = [
-            (255, 148, 0, 255),
-            (255, 202, 1, 255),
-            (115, 0, 255, 255),
-            (0, 23, 255, 255),
+            (0, 255, 255, 255), # cyan
+            (0, 0, 255, 255), # blue
+            (255, 0, 255, 255), # magenta
+            (255, 255, 255, 255),  # white
         ]
 
     elif palette == 1:
-        # Compound 1
+        # Reddish from BGGenerator
         circle_colors = [
-            (255, 0, 36, 255),
-            (255, 66, 1, 255),
-            (0, 176, 255, 255),
-            (0, 255, 196, 255),
-        ]
-        
-    elif palette == 2:
-        # Compound 2
-        circle_colors = [
-            (148, 0, 255, 255),
-            (255, 0, 195, 255),
-            (0, 255, 106, 255),
-            (47, 255, 0, 255),
-        ]
-        
-    elif palette == 3:
-        # Compound 3
-        circle_colors = [
-            (0, 160, 255, 255),
-            (1, 27, 255, 255),
-            (255, 250, 0, 255),
-            (255, 199, 0, 255),
-        ]
-        
-    elif palette == 4:
-        # Compound 4
-        circle_colors = [
-            (0, 255, 89, 255),
-            (1, 255, 232, 255),
-            (255, 155, 0, 255),
-            (255, 83, 0, 255),
-        ]
-        
-    elif palette == 5:
-        # Compound 5
-        circle_colors = [
-            (255, 249, 0, 255),
-            (97, 255, 0, 255),
-            (255, 0, 13, 255),
-            (248, 0, 255),
+            (255, 0, 255, 255),  # pink
+            (255, 255, 255, 255),  # white
+            (255, 255, 0, 255), # yellow
+            (255, 0, 0, 255), # red
         ]
 
     # Generate the gradient canvas based on the selected palette
