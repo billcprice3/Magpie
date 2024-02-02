@@ -27,11 +27,11 @@ def generate_gradient_canvas(canvas_width, canvas_height, circle_colors):
     #Draw rectangles in the four quadrants
     draw.rectangle([0,0,canvas_width/2,canvas_height/2],fill=circle_colors[cycle[0]])
     draw.rectangle([canvas_width/2,0,canvas_width,canvas_height/2],fill=circle_colors[cycle[1]])
-    draw.rectangle([0,canvas_height/2,canvas_width/2,canvas_height],fill=circle_colors[cycle[2]])
-    draw.rectangle([canvas_width/2,canvas_height/2,canvas_width,canvas_height],fill=circle_colors[cycle[3]])
+    draw.rectangle([canvas_width/2,canvas_height/2,canvas_width,canvas_height],fill=circle_colors[cycle[2]])
+    draw.rectangle([0,canvas_height/2,canvas_width/2,canvas_height],fill=circle_colors[cycle[3]])
 
     # Apply a blur to smooth the gradient transitions
-    gradient_canvas = gradient_canvas.filter(ImageFilter.GaussianBlur(radius=canvas_width // 2))
+    gradient_canvas = gradient_canvas.filter(ImageFilter.GaussianBlur(radius=canvas_width // 4))
     return gradient_canvas
 
 def generate_random_background(canvas_width=2000, canvas_height=2000):
@@ -39,9 +39,9 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
     background_color = (255, 255, 255, 255)  # White (RGBA format)
 
     # Circle parameters
-    shape_alpha = int(0.4 * 255)  # 30% opacity
-    shape_amount = 150
-    max_shape_radius = 500
+    shape_alpha = int(0.25 * 255)  # 30% opacity
+    shape_amount = 50
+    max_shape_radius = 800
     min_shape_radius = 100
 
     palette = random.randint(0,1)    # For the random selection of the color palette. 
