@@ -147,6 +147,15 @@ for filename in os.listdir(input_folder):
             canvas.save(output_filename, 'PNG')
 
             print(f"{filename} has been processed.")
+            
+            # Construct the full path of the input file
+            file_path = os.path.join(input_folder, filename)
+            
+            # The file has been processed, so we're ready to delete it
+            os.remove(file_path)
+            print(f"Deleted {file_path}")
+
+
     except Exception as e:
         print(f"Error processing {filename}: {e}")
 
