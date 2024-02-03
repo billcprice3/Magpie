@@ -114,6 +114,9 @@ def main():
         'delete_input_after_processing': True
     }
 
+    # Make config a global variable
+    global config
+
     # Read in the configuration from the config file
     config_file = 'config.yaml'
     config = read_config(config_file)
@@ -180,6 +183,9 @@ def main():
             print(f"Error processing {filename}: {e}")
 
     print("*All images have been saved to the output folder.*")
+
+# Global variable declaration; will be initialized in main()
+config = None
 
 if __name__ == "__main__":
     main()
