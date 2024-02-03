@@ -1,6 +1,12 @@
 from PIL import Image, ImageOps, ImageDraw, ImageFilter
 import os
 import random
+import yaml
+
+def read_config(file_path):
+    with open(file_path, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
 
 def generate_gradient_canvas(canvas_width, canvas_height, circle_colors):
     # Create a blank canvas for the gradient
@@ -102,6 +108,18 @@ output_folder = 'Outputs/'
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
 
+# Default configuration values
+default_config = {
+    'delete_input_after_processing': True
+}
+
+# Read in the configuration from the config file
+config_file = 'config.yaml'
+config = read_config(config_file)
+
+# Update default configuration with actual values from the config file
+config = {**default_config, **config}
+
 # Iterate through all image files in the input folder
 for filename in os.listdir(input_folder):
     try:
@@ -151,9 +169,10 @@ for filename in os.listdir(input_folder):
             # Construct the full path of the input file
             file_path = os.path.join(input_folder, filename)
             
-            # The file has been processed, so we're ready to delete it
-            os.remove(file_path)
-            print(f"Deleted {file_path}")
+            if config['delete_input_after_processing'] == True:
+                # The file has been processed, so we're ready to delete it
+                os.remove(file_path)
+                print(f"Deleted {file_path}")
 
 
     except Exception as e:
