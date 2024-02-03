@@ -10,7 +10,7 @@ def read_config(file_path):
 
 def generate_gradient_canvas(canvas_width, canvas_height, circle_colors):
     # Create a blank canvas for the gradient
-    gradient_canvas = Image.new('RGBA', (canvas_width, canvas_height), (255, 255, 255,255))
+    gradient_canvas = Image.new('RGBA', (canvas_width, canvas_height), tuple(config['background_color']))
     draw = ImageDraw.Draw(gradient_canvas)
     
     # Generate and randomize list for random color placement
@@ -112,6 +112,7 @@ def main():
     # Default configuration values
     default_config = {
         # Canvas preferences
+        'background_color': (255, 255, 255, 255),  # Default: (255, 255, 255, 255), which is white (RGBA format)
         'square_side': 2000, # Default: 2000
         'allow_rectangle': True, # Default: True
         'rectangle_if_taller_by': 1.15, # Default: 1.15
@@ -123,9 +124,7 @@ def main():
         'border_color': '#FFFFFF', # Default: '#FFFFFF', which is white
         'border_width': 15, # Default: 15
 
-        # Random canvas preferences
-
-        'background_color': (255, 255, 255, 255),  # Default: (255, 255, 255, 255), which is white (RGBA format)
+        # Random shapes preferences
         'shape_alpha': 0.25, # Default: 0.25
         'shape_amount': 50, # Default: 50
         'max_shape_radius': 800, # Default: 800
