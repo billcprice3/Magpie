@@ -99,83 +99,87 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
 
     # No need to convert canvas to 'RGBA' mode again since it's already in 'RGBA'
     return canvas
-  
-# Input and output folder paths
-input_folder = 'Inputs/'
-output_folder = 'Outputs/'
 
-# Create the output folder if it doesn't exist
-if not os.path.exists(output_folder):
-    os.makedirs(output_folder)
+def main():  
+    # Input and output folder paths
+    input_folder = 'Inputs/'
+    output_folder = 'Outputs/'
 
-# Default configuration values
-default_config = {
-    'delete_input_after_processing': True
-}
+    # Create the output folder if it doesn't exist
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
-# Read in the configuration from the config file
-config_file = 'config.yaml'
-config = read_config(config_file)
+    # Default configuration values
+    default_config = {
+        'delete_input_after_processing': True
+    }
 
-# Update default configuration with actual values from the config file
-config = {**default_config, **config}
+    # Read in the configuration from the config file
+    config_file = 'config.yaml'
+    config = read_config(config_file)
 
-# Iterate through all image files in the input folder
-for filename in os.listdir(input_folder):
-    try:
-        # Open the image
-        with Image.open(os.path.join(input_folder, filename)) as img:
+    # Update default configuration with actual values from the config file
+    config = {**default_config, **config}
 
-            if img.height / img.width > 1.15:
-                canvas = generate_random_background(2000, 2500)
-                # Calculate the scaling factor to fit within a 2000x2500 rectangle
-                max_width = 1800
-                max_height = 2300
-                width, height = img.size
-                scale_factor = min(max_width / width, max_height / height)
+    # Iterate through all image files in the input folder
+    for filename in os.listdir(input_folder):
+        try:
+            # Open the image
+            with Image.open(os.path.join(input_folder, filename)) as img:
 
-                # Resize img proportionally
-                new_width = int(width * scale_factor)
-                new_height = int(height * scale_factor)
-                img = img.resize((new_width, new_height), Image.LANCZOS)
-            else:
-                canvas = generate_random_background()
-                # Calculate the scaling factor to fit within a 1800x1800 square
-                max_dimension = 1800
-                width, height = img.size
-                scale_factor = min(max_dimension / width, max_dimension / height)
+                if img.height / img.width > 1.15:
+                    canvas = generate_random_background(2000, 2500)
+                    # Calculate the scaling factor to fit within a 2000x2500 rectangle
+                    max_width = 1800
+                    max_height = 2300
+                    width, height = img.size
+                    scale_factor = min(max_width / width, max_height / height)
 
-                # Resize img proportionally
-                new_width = int(width * scale_factor)
-                new_height = int(height * scale_factor)
-                img = img.resize((new_width, new_height), Image.LANCZOS)
+                    # Resize img proportionally
+                    new_width = int(width * scale_factor)
+                    new_height = int(height * scale_factor)
+                    img = img.resize((new_width, new_height), Image.LANCZOS)
+                else:
+                    canvas = generate_random_background()
+                    # Calculate the scaling factor to fit within a 1800x1800 square
+                    max_dimension = 1800
+                    width, height = img.size
+                    scale_factor = min(max_dimension / width, max_dimension / height)
 
-            # Calculate the position to center the image on the canvas
-            x_offset = (canvas.width - new_width - 30) // 2
-            y_offset = (canvas.height - new_height - 30) // 2
+                    # Resize img proportionally
+                    new_width = int(width * scale_factor)
+                    new_height = int(height * scale_factor)
+                    img = img.resize((new_width, new_height), Image.LANCZOS)
 
-            # Add a 10px white border to all sides
-            img_with_border = ImageOps.expand(img, border=15, fill='white')
+                # Calculate the position to center the image on the canvas
+                x_offset = (canvas.width - new_width - 30) // 2
+                y_offset = (canvas.height - new_height - 30) // 2
 
-            canvas.paste(img_with_border, (x_offset, y_offset))
+                # Add a 10px white border to all sides
+                img_with_border = ImageOps.expand(img, border=15, fill='white')
 
-            # Save the modified image to the output folder
-            output_filename = os.path.join(output_folder, os.path.splitext(filename)[0] + '.png')
+                canvas.paste(img_with_border, (x_offset, y_offset))
 
-            canvas.save(output_filename, 'PNG')
+                # Save the modified image to the output folder
+                output_filename = os.path.join(output_folder, os.path.splitext(filename)[0] + '.png')
 
-            print(f"{filename} has been processed.")
-            
-            # Construct the full path of the input file
-            file_path = os.path.join(input_folder, filename)
-            
-            if config['delete_input_after_processing'] == True:
-                # The file has been processed, so we're ready to delete it
-                os.remove(file_path)
-                print(f"Deleted {file_path}")
+                canvas.save(output_filename, 'PNG')
+
+                print(f"{filename} has been processed.")
+                
+                # Construct the full path of the input file
+                file_path = os.path.join(input_folder, filename)
+                
+                if config['delete_input_after_processing'] == True:
+                    # The file has been processed, so we're ready to delete it
+                    os.remove(file_path)
+                    print(f"Deleted {file_path}")
 
 
-    except Exception as e:
-        print(f"Error processing {filename}: {e}")
+        except Exception as e:
+            print(f"Error processing {filename}: {e}")
 
-print("*All images have been saved to the output folder.*")
+    print("*All images have been saved to the output folder.*")
+
+if __name__ == "__main__":
+    main()
