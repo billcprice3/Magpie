@@ -45,10 +45,10 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
     background_color = (255, 255, 255, 255)  # White (RGBA format)
 
     # Circle parameters
-    shape_alpha = int(0.25 * 255)  # 30% opacity
-    shape_amount = 50
-    max_shape_radius = 800
-    min_shape_radius = 100
+    shape_alpha = int(config['shape_alpha'] * 255)
+    shape_amount = config['shape_amount']
+    max_shape_radius = config['max_shape_radius']
+    min_shape_radius = config['min_shape_radius']
 
     palette = random.randint(0,1)    # For the random selection of the color palette. 
 
@@ -111,7 +111,28 @@ def main():
 
     # Default configuration values
     default_config = {
-        'delete_input_after_processing': True
+        # Canvas preferences
+        'square_side': 2000, # Default: 2000
+        'allow_rectangle': True, # Default: True
+        'rectangle_if_taller_by': 1.15, # Default: 1.15
+        'rectangle_width': 2000, # Default: 2000
+        'rectangle_height': 2500, # Default: 2000
+        'minimum_margin': 100, # Default: 100
+
+        # Border preferences
+        'border_color': '#FFFFFF', # Default: '#FFFFFF', which is white
+        'border_width': 15, # Default: 15
+
+        # Random canvas preferences
+
+        'background_color': (255, 255, 255, 255),  # Default: (255, 255, 255, 255), which is white (RGBA format)
+        'shape_alpha': 0.25, # Default: 0.25
+        'shape_amount': 50, # Default: 50
+        'max_shape_radius': 800, # Default: 800
+        'min_shape_radius': 100, # Default: 100
+
+        # File handling preferences
+        'delete_input_after_processing': True, # Default: True
     }
 
     # Make config a global variable
@@ -131,10 +152,15 @@ def main():
             with Image.open(os.path.join(input_folder, filename)) as img:
 
                 if img.height / img.width > 1.15:
-                    canvas = generate_random_background(2000, 2500)
-                    # Calculate the scaling factor to fit within a 2000x2500 rectangle
-                    max_width = 1800
-                    max_height = 2300
+                    if(config['allow_rectangle']):
+                        canvas = generate_random_background(config['rectangle_width'], config['rectangle_height'])
+                        max_width = config['rectangle_width'] - (2 * config['minimum_margin'])
+                        max_height = config['rectangle_height'] - (2 * config['minimum_margin'])
+                    else:
+                        canvas = generate_random_background(config['square_side'], config['square_side'])
+                        max_width = config['square_side'] - (2 * config['minimum_margin'])
+                        max_height = config['square_side'] - (2 * config['minimum_margin'])
+                    
                     width, height = img.size
                     scale_factor = min(max_width / width, max_height / height)
 
@@ -145,7 +171,7 @@ def main():
                 else:
                     canvas = generate_random_background()
                     # Calculate the scaling factor to fit within a 1800x1800 square
-                    max_dimension = 1800
+                    max_dimension = config['square_side'] - (2 * config['minimum_margin'])
                     width, height = img.size
                     scale_factor = min(max_dimension / width, max_dimension / height)
 
@@ -159,7 +185,7 @@ def main():
                 y_offset = (canvas.height - new_height - 30) // 2
 
                 # Add a 10px white border to all sides
-                img_with_border = ImageOps.expand(img, border=15, fill='white')
+                img_with_border = ImageOps.expand(img, border=config['border_width'], fill=config['border_color'])
 
                 canvas.paste(img_with_border, (x_offset, y_offset))
 

@@ -1,1 +1,15 @@
 delete_input_after_processing: True # Default: True
+square_side: 2000 # Default: 2000
+allow_rectangle: True # Default: True
+rectangle_if_taller_by: 1.15 # Default: 1.15
+rectangle_width: 2000 # Default: 2000
+rectangle_height: 2500 # Default: 2000
+minimum_margin: 100 # Default: 100
+border_color: '#FFFFFF' # Default: '#FFFFFF', which is white
+border_width: 15 # Default: 15
+
+background_color: [255, 255, 255, 255]  # Default: [255, 255, 255, 255], which is white (RGBA format)
+shape_alpha: 0.25 # Default: 0.25
+shape_amount: 50 # Default: 50
+max_shape_radius: 800 # Default: 800
+min_shape_radius: 100 # Default: 100
