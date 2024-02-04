@@ -15,7 +15,7 @@ def generate_gradient_canvas(canvas_width, canvas_height, circle_colors):
     
     # Generate and randomize list for random color placement
 
-    cycle_permutation = random.randint(0,1)
+    cycle_permutation = random.randint(0,3)
 
     if cycle_permutation == 0:
         cycle = [0, 1, 2, 3]
@@ -153,7 +153,7 @@ def main():
             # Open the image
             with Image.open(os.path.join(input_folder, filename)) as img:
 
-                if img.height / img.width > 1.15:
+                if img.height / img.width > config['rectangle_if_taller_by']:
                     if(config['allow_rectangle']):
                         canvas = generate_random_background(config['rectangle_width'], config['rectangle_height'])
                         max_width = config['rectangle_width'] - (2 * config['minimum_margin'])
@@ -171,7 +171,7 @@ def main():
                     new_height = int(height * scale_factor)
                     img = img.resize((new_width, new_height), Image.LANCZOS)
                 else:
-                    canvas = generate_random_background()
+                    canvas = generate_random_background(config['square_side'],config['square_side'])
                     # Calculate the scaling factor to fit within a 1800x1800 square
                     max_dimension = config['square_side'] - (2 * config['minimum_margin'])
                     width, height = img.size
@@ -183,10 +183,10 @@ def main():
                     img = img.resize((new_width, new_height), Image.LANCZOS)
 
                 # Calculate the position to center the image on the canvas
-                x_offset = (canvas.width - new_width - 30) // 2
-                y_offset = (canvas.height - new_height - 30) // 2
+                x_offset = (canvas.width - new_width - config['border_width'] * 2) // 2
+                y_offset = (canvas.height - new_height - config['border_width'] * 2) // 2
 
-                # Add a 10px white border to all sides
+                # Add a border to all sides
                 img_with_border = ImageOps.expand(img, border=config['border_width'], fill=config['border_color'])
 
                 canvas.paste(img_with_border, (x_offset, y_offset))

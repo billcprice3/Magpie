@@ -7,7 +7,7 @@ rectangle_width: 2000 # Default: 2000
 rectangle_height: 2500 # Default: 2500
 minimum_margin: 100 # Default: 100
 border_color: '#FFFFFF' # Default: '#FFFFFF', which is white
-border_width: 15 # Default: 15
+border_width: 15 # Default: 15; 0 to turn borders off
 
 # Random shape preferences
 shape_alpha: 0.25 # Default: 0.25, meaning 25% opacity
