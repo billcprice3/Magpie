@@ -10,7 +10,7 @@ def read_config(file_path):
 
 def generate_gradient_canvas(canvas_width, canvas_height, circle_colors):
     # Create a blank canvas for the gradient
-    gradient_canvas = Image.new('RGBA', (canvas_width, canvas_height), tuple(config['background_color']))
+    gradient_canvas = Image.new('RGBA', (canvas_width, canvas_height), (255, 255, 255, 255))
     draw = ImageDraw.Draw(gradient_canvas)
     
     # Generate and randomize list for random color placement
@@ -42,7 +42,7 @@ def generate_gradient_canvas(canvas_width, canvas_height, circle_colors):
 
 def generate_random_background(canvas_width=2000, canvas_height=2000):
     # Canvas parameters
-    background_color = (255, 255, 255, 255)  # White (RGBA format)
+    background_color = tuple(config['background_color'])
 
     # Circle parameters
     shape_alpha = int(config['shape_alpha'] * 255)
@@ -50,26 +50,7 @@ def generate_random_background(canvas_width=2000, canvas_height=2000):
     max_shape_radius = config['max_shape_radius']
     min_shape_radius = config['min_shape_radius']
 
-    palette = random.randint(0,1)    # For the random selection of the color palette. 
-
-    
-    if palette == 0:
-        # Purplish from BGGenerator
-        circle_colors = [
-            (0, 255, 255, 255), # cyan
-            (0, 0, 255, 255), # blue
-            (255, 0, 255, 255), # magenta
-            (255, 255, 255, 255),  # white
-        ]
-
-    elif palette == 1:
-        # Reddish from BGGenerator
-        circle_colors = [
-            (255, 0, 255, 255),  # pink
-            (255, 255, 255, 255),  # white
-            (255, 255, 0, 255), # yellow
-            (255, 0, 0, 255), # red
-        ]
+    circle_colors = [tuple(color) for color in random.choice(config['palettes'])['colors']]
 
     # Generate the gradient canvas based on the selected palette
     gradient_canvas = generate_gradient_canvas(canvas_width, canvas_height, circle_colors)
@@ -123,6 +104,28 @@ def main():
         # Border preferences
         'border_color': '#FFFFFF', # Default: '#FFFFFF', which is white
         'border_width': 15, # Default: 15
+
+        # Palettes
+        'palettes': [
+            {
+                'name': "Purplish from BGGenerator",
+                'colors': [
+                    [0, 255, 255, 255],  # cyan
+                    [0, 0, 255, 255],  # blue
+                    [255, 0, 255, 255],  # magenta
+                    [255, 255, 255, 255],  # white
+                ]
+            },
+            {
+                'name': "Reddish from BGGenerator",
+                'colors': [
+                    [255, 0, 255, 255],  # pink
+                    [255, 255, 255, 255],  # white
+                    [255, 255, 0, 255],  # yellow
+                    [255, 0, 0, 255],  # red
+                ]
+            }
+        ],
 
         # Random shapes preferences
         'shape_alpha': 0.25, # Default: 0.25

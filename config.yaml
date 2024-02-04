@@ -1,19 +1,53 @@
 # Canvas preferences
-background_color: [255, 255, 255, 255]  # Default: [255, 255, 255, 255], which is white (RGBA format)
+background_color: [255, 255, 255, 255]  # Default: [255, 255, 255, 255], which is white and opaque (RGBA format)
 square_side: 2000 # Default: 2000
-allow_rectangle: True # Default: True
+allow_rectangle: True # Default: True. If set to False, output images will always be squares.
 rectangle_if_taller_by: 1.15 # Default: 1.15
 rectangle_width: 2000 # Default: 2000
-rectangle_height: 2500 # Default: 2000
+rectangle_height: 2500 # Default: 2500
 minimum_margin: 100 # Default: 100
 border_color: '#FFFFFF' # Default: '#FFFFFF', which is white
 border_width: 15 # Default: 15
 
 # Random shape preferences
-shape_alpha: 0.25 # Default: 0.25
+shape_alpha: 0.25 # Default: 0.25, meaning 25% opacity
 shape_amount: 50 # Default: 50
 max_shape_radius: 800 # Default: 800
 min_shape_radius: 100 # Default: 100
 
+# Color palettes for random shapes
+    # You can add as many palettes as you want
+    # Each palette must have exactly four colors 
+        # (colors after the fourth are ignored; fewer than 4 gives an error)
+    # For each image it processes, the program selects palettes at random from the list below
+palettes:
+  - name: "Purplish"
+    colors:
+      - [0, 255, 255, 255]  # cyan
+      - [0, 0, 255, 255]  # blue
+      - [255, 0, 255, 255]  # magenta
+      - [255, 255, 255, 255]  # white
+  - name: "Reddish"
+    colors:
+      - [255, 0, 255, 255]  # pink
+      - [255, 255, 255, 255]  # white
+      - [255, 255, 0, 255]  # yellow
+      - [255, 0, 0, 255]  # red
+
+# Default palettes
+#palettes:
+#  - name: "Purplish"
+#    colors:
+#      - [0, 255, 255, 255]  # cyan
+#      - [0, 0, 255, 255]  # blue
+#      - [255, 0, 255, 255]  # magenta
+#      - [255, 255, 255, 255]  # white
+#  - name: "Reddish"
+#    colors:
+#      - [255, 0, 255, 255]  # pink
+#      - [255, 255, 255, 255]  # white
+#      - [255, 255, 0, 255]  # yellow
+#      - [255, 0, 0, 255]  # red
+
 # File handing preferences
-delete_input_after_processing: True # Default: True
+delete_input_after_processing: False # Default: True. This saves you from needing to manually clear out the Inputs folder
