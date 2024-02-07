@@ -134,7 +134,7 @@ def main():
         'min_shape_radius': 100, # Default: 100
 
         # File handling preferences
-        'delete_input_after_processing': True, # Default: True
+        'delete_input_after_processing': False, # Default: False
     }
 
     # Make config a global variable

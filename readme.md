@@ -1,5 +1,7 @@
 ### Deploying the `magpie.py` Script: A User Manual
 
+**Notice: This manual was written by GPT-4**
+
 This manual provides step-by-step instructions for deploying the `magpie.py` Python script on both Windows and MacOS. This script requires Python 3 and specific libraries to run correctly. The ZIP file you've received contains the script itself, a configuration file (`config.yaml`), and placeholder folders for inputs and outputs.
 
 #### General Preparation
@@ -17,12 +19,11 @@ Before diving into platform-specific instructions, ensure you've downloaded the 
 - Open Command Prompt.
 - Install the necessary libraries by running the following command:
   ```
-  python3 -m pip install Pillow os random yaml
+  python3 -m pip install Pillow yaml
   ```
-  Note: `os` and `random` are part of the standard library, so you don't need to install them separately.
 
 #### 3. Unzip the Script Files
-- Navigate to the location of the downloaded ZIP file.
+- Navigate to the location of the downloaded `Magpie.zip` ZIP file.
 - Right-click the ZIP file and select **Extract All...**.
 - Choose the destination for the extracted files and click **Extract**.
 
@@ -55,10 +56,9 @@ Before diving into platform-specific instructions, ensure you've downloaded the 
   ```
   python3 -m pip install Pillow yaml
   ```
-  Note: `os` and `random` are part of the standard library, so you don't need to install them separately.
 
 #### 3. Unzip the Script Files
-- Locate the downloaded ZIP file in Finder.
+- Locate the downloaded `Magpie.zip` ZIP file in Finder.
 - Double-click the ZIP file to extract its contents to a new folder.
 
 #### 4. Customize Configuration (Optional)
