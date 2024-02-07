@@ -21,7 +21,6 @@ Before diving into platform-specific instructions, ensure you've downloaded the 
   ```
   python3 -m pip install Pillow yaml
   ```
-  Note: `os` and `random` are part of the standard library, so you don't need to install them separately.
 
 #### 3. Unzip the Script Files
 - Navigate to the location of the downloaded ZIP file.
@@ -57,7 +56,6 @@ Before diving into platform-specific instructions, ensure you've downloaded the 
   ```
   python3 -m pip install Pillow yaml
   ```
-  Note: `os` and `random` are part of the standard library, so you don't need to install them separately.
 
 #### 3. Unzip the Script Files
 - Locate the downloaded ZIP file in Finder.
