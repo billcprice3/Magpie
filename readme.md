@@ -1,6 +1,6 @@
 ### Deploying the `magpie.py` Script: A User Manual
 
-== Notice: This manual was written by GPT-4 ==
+**Notice: This manual was written by GPT-4**
 
 This manual provides step-by-step instructions for deploying the `magpie.py` Python script on both Windows and MacOS. This script requires Python 3 and specific libraries to run correctly. The ZIP file you've received contains the script itself, a configuration file (`config.yaml`), and placeholder folders for inputs and outputs.
 
