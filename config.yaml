@@ -50,4 +50,4 @@ palettes:
 #      - [255, 0, 0, 255]  # red
 
 # File handing preferences
-delete_input_after_processing: False # Default: True. This saves you from needing to manually clear out the Inputs folder
+delete_input_after_processing: True # Default: True. This saves you from needing to manually clear out the Inputs folder
